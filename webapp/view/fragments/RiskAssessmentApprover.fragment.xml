@@ -1,0 +1,248 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:upload="sap.m.upload">
+    <Wizard id="performRiskAssessmentWizard" currentStep="riskMitigation" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="false">
+        <WizardStep id="basicPlanDetails" title="Basic Plan Details">
+            <f:SimpleForm id="basicPlanDetailsSimpleForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                <f:content>
+                    <Label text="Plan Name (Title)" design="Bold"/>
+                    <Input id="name" placeholder="Enter Plan Title" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/>
+                    <Label text="Activity" design="Bold" />
+                    <Select id="activity">
+                        <items>
+                            <core:ListItem key="1" text="Perform Risk Assessment" />
+                            <core:ListItem key="2" text="Perform Opportunity Validation" />
+                        </items>
+                    </Select>
+                    <Label text="Start Date" design="Bold" />
+                    <DatePicker placeholder="Enter Start Date" dateValue=""/>
+                    <Label text="End Date" design="Bold" />
+                    <DatePicker placeholder="Enter End Date" dateValue=""/>
+                </f:content>
+            </f:SimpleForm>
+        </WizardStep>
+        <WizardStep id="organizationAndRisk" validated="true" title="Organization and Risk">
+            <f:SimpleForm id="organizationAndRiskSimpleForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                <f:content>
+                    <Label text="Organization" design="Bold"/>
+                    <Select id="organizaiton" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}" forceSelection="false">
+                        <items>
+                            <core:ListItem key="1" text="1: DIS Corp Distributor" />
+                            <core:ListItem key="2" text="2: Electricity Source" />
+                            <core:ListItem key="2" text="3: Distripution Power Network" />
+                        </items>
+                    </Select>
+                    <!-- <Input id="organizaiton" placeholder="Select Organization" showValueHelp="true" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/> -->
+                    <Label text="Risk" design="Bold" />
+                    <Select id="risk" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}" forceSelection="false">
+                        <items>
+                            <core:ListItem key="1" text="1: RISK/132435345" />
+                            <core:ListItem key="2" text="2: RISK/436465465" />
+                            <core:ListItem key="2" text="3: RISK/865576565" />
+                        </items>
+                    </Select>
+
+                    <!-- <Input id="risk" placeholder="Select Risk" showValueHelp="true" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/> -->
+                    <!-- <Label text="Start Date" design="Bold" /> -->
+                    <Label text="Risk Tier" design="Bold" visible="{= ${appConfigModel>/app} === 'ApproveApp'}" />
+                    <Select enabled="false" forceSelection="true" visible="{= ${appConfigModel>/app} === 'ApproveApp'}">
+                        <items>
+                            <core:ListItem key="1" text="Tier 1 - Divisional Risk" />
+                        </items>
+                    </Select>
+
+                    <Label text="Risk Category" design="Bold" visible="{= ${appConfigModel>/app} === 'ApproveApp'}"/>
+                    <Select enabled="false" forceSelection="true" visible="{= ${appConfigModel>/app} === 'ApproveApp'}">
+                        <items>
+                            <core:ListItem key="1" text="Risk Category 1 - Report" />
+                        </items>
+                    </Select>
+
+                </f:content>
+            </f:SimpleForm>
+            <List headerText="Causes" mode="None" visible="{= ${appConfigModel>/app} === 'ApproveApp'}">
+                <items>
+                    <StandardListItem title="Causes 1"/>
+                    <StandardListItem title="Causes 2"/>
+                </items>
+            </List>
+
+            <List headerText="Impacts" mode="None" visible="{= ${appConfigModel>/app} === 'ApproveApp'}">
+                <items>
+                    <StandardListItem title="Impacts 1"/>
+                    <StandardListItem title="Impacts 2"/>
+                </items>
+            </List>
+        </WizardStep>
+        <WizardStep id="recipients" validated="true" title="Recipients">
+            <List items="{saveModel>/accessor1}" mode="{= ${appConfigModel>/app} === 'RiskAssessApp' ? 'Delete' : 'None'}" delete="handleDeleteAccessor1">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Add Accessor 1" />
+                        <ToolbarSpacer />
+                        <Button icon="sap-icon://add" press="handleAddAccessor1" visible="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <items>
+                    <StandardListItem title="{saveModel>accessorText}"/>
+                </items>
+            </List>
+
+            <List items="{saveModel>/accessor2}" mode="{= ${appConfigModel>/app} === 'RiskAssessApp' ? 'Delete' : 'None'}" delete="handleDeleteAccessor2">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Add Accessor 2" />
+                        <ToolbarSpacer />
+                        <Button icon="sap-icon://add" press="handleAddAccessor2" visible="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <items>
+                    <StandardListItem title="{saveModel>accessorText}"/>
+                </items>
+            </List>
+
+            <List items="{saveModel>/recipients}" mode="{= ${appConfigModel>/app} === 'RiskAssessApp' ? 'Delete' : 'None'}" delete="handleDeleteRecipient">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Add Consolidator" />
+                        <ToolbarSpacer />
+                        <Button icon="sap-icon://add" press="handleAddRecipient" visible="{= ${appConfigModel>/app} === 'RiskAssessApp'}" />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <items>
+                    <StandardListItem title="{saveModel>recipientText}"/>
+                </items>
+            </List>
+
+            <!-- <Label text="Accessor 1" design="Bold"/>
+                    <Input id="accessor1" placeholder="Add Accessor" showValueHelp="true" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/>
+                    <Label text="Accessor 1" design="Bold"/>
+                    <Input id="accessor2" placeholder="Add Accessor" showValueHelp="true" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/>
+                    <Label text="Consolidator" design="Bold"/>
+                    <Input id="consolidator" placeholder="Select Consolidator" showValueHelp="true" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/> -->
+            <!-- <List items="{saveModel>/impacts}" mode="Delete" delete="handleImpactDelete">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <ToolbarSpacer />
+                                <Button icon="sap-icon://add" press="handleAddImpacts" />
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <items>
+                            <StandardListItem title="{saveModel>impactText}"/>
+                        </items>
+                    </List> -->
+        </WizardStep>
+
+        <WizardStep id="inhRiskAssessment" title="Inherent Risk Assessment" visible="{= ${appConfigModel>/app} === 'ApproveApp'}">
+            <f:SimpleForm id="inhRiskAssessSimpleForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                <f:content>
+                    <Label text="Anslysis Type" design="Bold"/>
+                    <Input id="inhAnalysisType" value="Inherent Risk Assessment" editable="false"/>
+
+                    <Label text="Likelihood Level" design="Bold"/>
+                    <Select id="inhLikelihoodLevel">
+                        <items>
+                            <core:ListItem key="1" text="1: Rare" />
+                            <core:ListItem key="2" text="2: Unlikely" />
+                            <core:ListItem key="3" text="3: Possible" />
+                            <core:ListItem key="4" text="4: Likely" />
+                        </items>
+                    </Select>
+
+                    <Label text="Impact Level" design="Bold"/>
+                    <Select id="inhImpactLevel">
+                        <items>
+                            <core:ListItem key="1" text="1: Insignificant" />
+                            <core:ListItem key="2" text="2: Minor" />
+                            <core:ListItem key="3" text="3: Minor" />
+                            <core:ListItem key="4" text="4: Major" />
+                        </items>
+                    </Select>
+
+                    <Label text="Risk Score" design="Bold"/>
+                    <Input id="inhRiskScore" placeholder="Enter Risk Score"/>
+                </f:content>
+            </f:SimpleForm>
+        </WizardStep>
+
+        <WizardStep id="resRiskAssessment" title="Residual Risk Assessment" visible="{= ${appConfigModel>/app} === 'ApproveApp'}">
+            <f:SimpleForm id="resRiskAssessSimpleForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                <f:content>
+                    <Label text="Anslysis Type" design="Bold"/>
+                    <Input id="resAnalysisType" value="Residual Risk Assessment" editable="false"/>
+
+                    <Label text="Likelihood Level" design="Bold"/>
+                    <Select id="resLikelihoodLevel">
+                        <items>
+                            <core:ListItem key="1" text="1: Rare" />
+                            <core:ListItem key="2" text="2: Unlikely" />
+                            <core:ListItem key="3" text="3: Possible" />
+                            <core:ListItem key="4" text="4: Likely" />
+                        </items>
+                    </Select>
+
+                    <Label text="Impact Level" design="Bold"/>
+                    <Select id="resImpactLevel">
+                        <items>
+                            <core:ListItem key="1" text="1: Insignificant" />
+                            <core:ListItem key="2" text="2: Minor" />
+                            <core:ListItem key="3" text="3: Minor" />
+                            <core:ListItem key="4" text="4: Major" />
+                        </items>
+                    </Select>
+
+                    <Label text="Risk Score" design="Bold"/>
+                    <Input id="resRiskScore" placeholder="Enter Risk Score"/>
+                </f:content>
+            </f:SimpleForm>
+        </WizardStep>
+
+        <WizardStep id="riskMitigation" title="Risk Mitigation" visible="{= ${appConfigModel>/app} === 'ApproveApp'}">
+            <f:SimpleForm id="riskMitigationSimpleForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                <f:content>
+                    <Label text="Name (Title)" design="Bold"/>
+                    <Input id="mitigationtitle" value="ITF2022_001_CORP" placeholder="Enter Title" />
+                    <Label text="Description" design="Bold"/>
+                    <Input value="Perform Risk Assessment" placeholder="Enter Description"/>
+                    <Label text="Organization Unit" design="Bold"/>
+                    <Input value="DEWA" placeholder="Enter Organization Unit"/>
+                    <Label text="Owner" design="Bold"/>
+                    <Input value="" placeholder="Enter Owner"/>
+                    <Label text="Type" design="Bold"/>
+                    <Input value="" placeholder="Enter Mitigation Type"/>
+                    <Label text="Type" design="Bold"/>
+                    <Input value="" placeholder="Enter Mitigation Type"/>
+                    <Label text="Mitigation Step/Action" design="Bold"/>
+                    <TextArea value="" rows="3" />
+                    <Label text="Start Date" design="Bold" />
+                    <DatePicker placeholder="Enter Start Date" dateValue=""/>
+                    <Label text="End Date" design="Bold" />
+                    <DatePicker placeholder="Enter End Date" dateValue=""/>
+                    <Label text="Completeness" design="Bold"/>
+                    <Input value="" placeholder="Enter Completeness %"/>
+                    <Label text="Effective From Date" design="Bold" />
+                    <DatePicker placeholder="Enter Effective From Date" dateValue=""/>
+                    <Label text="Effective To Date" design="Bold" />
+                    <DatePicker placeholder="Enter Effective To Date" dateValue=""/>
+                    <Label text="Completeness" design="Bold"/>
+                    <Input value="" placeholder="Enter Completeness %"/>
+                    <Label text="Due Date" design="Bold" />
+                    <DatePicker placeholder="Enter Due Date" dateValue=""/>
+                </f:content>
+            </f:SimpleForm>
+        </WizardStep>
+        <!-- <WizardStep id="attachments" title="Add Attachments" visible="{= ${appConfigModel>/app} === 'RiskAssessApp'}">
+            <upload:UploadSet id="attachmentUploadSet" instantUpload="false" showIcons="true" uploadEnabled="true" terminationEnabled="true" fileTypes="txt,doc,png" maxFileNameLength="30" maxFileSize="200" mediaTypes="text/plain,application/msword,image/jpeg">
+                <upload:toolbar>
+                    <OverflowToolbar>
+                        <Button id="uploadAttachmentAction" tooltip="Upload Selected" icon="sap-icon://upload-to-cloud" press="onUploadSelectedButton"/>
+                        <Button id="downloadAttachmentAction" tooltip="Download selected" icon="sap-icon://download-from-cloud" press="onDownloadSelectedButton"/>
+                    </OverflowToolbar>
+                </upload:toolbar>
+            </upload:UploadSet>
+        </WizardStep> -->
+    </Wizard>
+</core:FragmentDefinition>

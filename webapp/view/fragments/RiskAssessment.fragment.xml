@@ -1,0 +1,121 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:upload="sap.m.upload">
+    <Wizard id="performRiskAssessmentWizard" currentStep="attachments" class="sapUiResponsivePadding--header sapUiResponsivePadding--content" showNextButton="false">
+        <WizardStep id="basicPlanDetails" title="Basic Plan Details">
+            <f:SimpleForm id="basicPlanDetailsSimpleForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                <f:content>
+                    <Label text="Plan Name (Title)" design="Bold"/>
+                    <Input id="name" placeholder="Enter Plan Title" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/>
+                    <Label text="Activity" design="Bold" />
+                    <Select id="activity">
+                        <items>
+                            <core:ListItem key="1" text="Perform Risk Assessment" />
+                            <core:ListItem key="2" text="Perform Opportunity Validation" />
+                        </items>
+                    </Select>
+                    <Label text="Start Date" design="Bold" />
+                    <DatePicker placeholder="Enter Start Date" dateValue=""/>
+                    <Label text="End Date" design="Bold" />
+                    <DatePicker placeholder="Enter End Date" dateValue=""/>
+                </f:content>
+            </f:SimpleForm>
+        </WizardStep>
+        <WizardStep id="organizationAndRisk" validated="true" title="Organization and Risk">
+            <f:SimpleForm id="organizationAndRiskSimpleForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+                <f:content>
+                    <Label text="Organization" design="Bold"/>
+                    <Select id="organizaiton" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}" forceSelection="false">
+                        <items>
+                            <core:ListItem key="1" text="1: DIS Corp Distributor" />
+                            <core:ListItem key="2" text="2: Electricity Source" />
+                            <core:ListItem key="2" text="3: Distripution Power Network" />
+                        </items>
+                    </Select>
+                    <!-- <Input id="organizaiton" placeholder="Select Organization" showValueHelp="true" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/> -->
+                    <Label text="Risk" design="Bold" />
+                    <Select id="risk" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}" forceSelection="false">
+                        <items>
+                            <core:ListItem key="1" text="1: RISK/132435345" />
+                            <core:ListItem key="2" text="2: RISK/436465465" />
+                            <core:ListItem key="2" text="3: RISK/865576565" />
+                        </items>
+                    </Select>
+                    <!-- <Input id="risk" placeholder="Select Risk" showValueHelp="true" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/> -->
+                    <Label text="Start Date" design="Bold" />
+                </f:content>
+            </f:SimpleForm>
+        </WizardStep>
+        <WizardStep id="recipients" validated="true" title="Recipients">
+            <List items="{saveModel>/accessor1}" mode="{= ${appConfigModel>/app} === 'RiskAssessApp' ? 'Delete' : 'None'}" delete="handleDeleteAccessor1">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Add Accessor 1" />
+                        <ToolbarSpacer />
+                        <Button icon="sap-icon://add" press="handleAddAccessor1" visible="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <items>
+                    <StandardListItem title="{saveModel>accessorText}"/>
+                </items>
+            </List>
+
+            <List items="{saveModel>/accessor2}" mode="{= ${appConfigModel>/app} === 'RiskAssessApp' ? 'Delete' : 'None'}" delete="handleDeleteAccessor2">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Add Accessor 2" />
+                        <ToolbarSpacer />
+                        <Button icon="sap-icon://add" press="handleAddAccessor2" visible="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <items>
+                    <StandardListItem title="{saveModel>accessorText}"/>
+                </items>
+            </List>
+
+            <List items="{saveModel>/recipients}" mode="{= ${appConfigModel>/app} === 'RiskAssessApp' ? 'Delete' : 'None'}" delete="handleDeleteRecipient">
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Add Consolidator" />
+                        <ToolbarSpacer />
+                        <Button icon="sap-icon://add" press="handleAddRecipient" visible="{= ${appConfigModel>/app} === 'RiskAssessApp'}" />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <items>
+                    <StandardListItem title="{saveModel>recipientText}"/>
+                </items>
+            </List>
+
+            <!-- <Label text="Accessor 1" design="Bold"/>
+                    <Input id="accessor1" placeholder="Add Accessor" showValueHelp="true" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/>
+                    <Label text="Accessor 1" design="Bold"/>
+                    <Input id="accessor2" placeholder="Add Accessor" showValueHelp="true" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/>
+                    <Label text="Consolidator" design="Bold"/>
+                    <Input id="consolidator" placeholder="Select Consolidator" showValueHelp="true" editable="{= ${appConfigModel>/app} === 'RiskAssessApp'}"/> -->
+            <!-- <List items="{saveModel>/impacts}" mode="Delete" delete="handleImpactDelete">
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <ToolbarSpacer />
+                                <Button icon="sap-icon://add" press="handleAddImpacts" />
+                            </OverflowToolbar>
+                        </headerToolbar>
+                        <items>
+                            <StandardListItem title="{saveModel>impactText}"/>
+                        </items>
+                    </List> -->
+        </WizardStep>
+        <WizardStep id="attachments" title="Add Attachments">
+            <upload:UploadSet id="attachmentUploadSet" instantUpload="false" showIcons="true" uploadEnabled="true" terminationEnabled="true" fileTypes="txt,doc,png" maxFileNameLength="30" maxFileSize="200" mediaTypes="text/plain,application/msword,image/jpeg">
+                <upload:toolbar>
+                    <OverflowToolbar>
+                        <Button id="uploadAttachmentAction" tooltip="Upload Selected" icon="sap-icon://upload-to-cloud" press="onUploadSelectedButton"/>
+                        <Button id="downloadAttachmentAction" tooltip="Download selected" icon="sap-icon://download-from-cloud" press="onDownloadSelectedButton"/>
+                    </OverflowToolbar>
+                </upload:toolbar>
+            </upload:UploadSet>
+        </WizardStep>
+    </Wizard>
+</core:FragmentDefinition>

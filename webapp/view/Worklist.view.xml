@@ -1,0 +1,20 @@
+<mvc:View controllerName="grcriskassess2.controller.Worklist"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:upload="sap.m.upload">
+    <Page id="performRiskAssessPage" title="Perform Risk Assessment" showNavButton="true" showHeader="false">
+        <footer>
+            <OverflowToolbar>
+                <!-- <Button id="prevPageAction" text="Prev" type="Emphasized" press="goToPrevPage" /> -->
+                <ToolbarSpacer/>
+                <!-- <Button id="nextPageAction" text="Next" type="Emphasized" press="goToNextPage" /> -->
+                <Button id="submitPageAction" visible="{= ${appConfigModel>/app} === 'RiskAssessApp'}" text="Submit" type="Accept" press="handleSubmitRiskAssess" />
+                <Button id="approvePageAction" visible="{= ${appConfigModel>/app} === 'ApproveApp'}" text="Approve" type="Accept" press="handleApproveRiskAssess" /> 
+                <Button id="rejectPageAction" visible="{= ${appConfigModel>/app} === 'ApproveApp'}" text="Reject" type="Reject" press="handleRejectRiskAssess" />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>
